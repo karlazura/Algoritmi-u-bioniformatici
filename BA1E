@@ -1,3 +1,5 @@
+  
+#!/usr/bin/env python3
 
 """
 A solution to a ROSALIND bioinformatics problem.
@@ -5,3 +7,4 @@ Problem Title: Find Patterns Forming Clumps in a String
 Rosalind ID: BA1E
 URL: http://rosalind.info/problems/ba1e/
 """
+
