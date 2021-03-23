@@ -1,1 +1,8 @@
+#!/usr/bin/env python3
 
+"""
+A solution to a ROSALIND bioinformatics problem.
+Problem Title: Find the reverse complement of a DNA string
+Rosalind ID: BA1C
+URL: http://rosalind.info/problems/ba1c/
+"""
