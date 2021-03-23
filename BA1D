@@ -1,6 +1,25 @@
+#!/usr/bin/env python3
+
 """
 A solution to a ROSALIND bioinformatics problem.
 Problem Title: Find All Occurrences of a Pattern in a String
 Rosalind ID: BA1D
 URL: http://rosalind.info/problems/ba1d/
 """
+
+def kmer(text,i,k):
+  return text[i: (i+k)]
+
+
+def starting_position(text,pattern):
+  L = []
+  for i in range(0, len(text) - len(pattern) + 1):
+    if kmer(text,i,len(pattern)) == pattern:
+      L.append(i)
+  return L
+  
+  
+  if __name__ == '__main__':
+  
+  x="ACTGCGTACATTGCAACTACTGTACTGDCACDTATC"
+  print(starting_position(x,"ACT"))
