@@ -1,0 +1,9 @@
+#!/usr/bin/env python3
+
+"""
+A solution to a ROSALIND bioinformatics problem.
+Problem Title: Compute the Number of Times a Pattern Appears in a Text
+Rosalind ID: BA1A
+URL: http://rosalind.info/problems/ba1a/
+"""
+
