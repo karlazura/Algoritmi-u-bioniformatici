@@ -1,0 +1,9 @@
+#!/usr/bin/env python3
+
+"""
+A solution to a ROSALIND bioinformatics problem.
+Problem Title: Find the Most Frequent Words in a String
+Rosalind ID: BA1B
+URL: http://rosalind.info/problems/ba1b/
+"""
+
