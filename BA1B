@@ -7,3 +7,21 @@ Rosalind ID: BA1B
 URL: http://rosalind.info/problems/ba1b/
 """
 
+def kmer(text,i,k):
+  return text[i: (i+k)]
+
+def kmersfrequency(text,k):
+  D = dict()
+  for i in range(0, len(text)- k + 1):
+    temp=kmer(text,i,k)
+    try:      
+      D[temp] = D[temp] + 1
+    except KeyError:
+      D[temp] = 1 
+  
+  return D
+
+def most_frequent_kmer(text,k):
+  D = kmersfrequency(text,k)
+  maxcount=max(D.values())
+  return dict.fromkeys([x[0] for x in D.items() if x[1] == maxcount], maxcount)
