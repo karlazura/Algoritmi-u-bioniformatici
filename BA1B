@@ -25,3 +25,14 @@ def most_frequent_kmer(text,k):
   D = kmersfrequency(text,k)
   maxcount=max(D.values())
   return dict.fromkeys([x[0] for x in D.items() if x[1] == maxcount], maxcount)
+
+if __name__ == '__main__':
+    x = '''ACGTTGCATGTCGCATGATGCATGAGAGCT
+4'''
+    inlines = x.split()
+    text = inlines[0]
+    k = int(inlines[1])
+
+    res = mostfrequentkmers(text, k)
+
+    print(" ".join(res))
