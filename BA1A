@@ -17,5 +17,5 @@ def number_of_patterns(text,pattern):
 
 if __name__ == '__main__':
   
-  pattern_count("ABCDFLFJFJFOABCPSDKSPDKABCJDJDJDABC","ABC")
+  number_of_patterns("ABCDFLFJFJFOABCPSDKSPDKABCJDJDJDABC","ABC")
     
