@@ -1,0 +1,148 @@
+"""
+A solution to a ROSALIND bioinformatics problem.
+Problem Title: Peptide Encoding Problem
+Rosalind ID: BA4B
+URL: http://rosalind.info/problems/ba4b/
+"""
+
+def encoding(rna_pattern,rna_pattern_rev_com,peptide):
+    amino = '''AAAK
+AACN
+AAGK
+AAUN
+ACAT
+ACCT
+ACGT
+ACUT
+AGAR
+AGCS
+AGGR
+AGUS
+AUAI
+AUCI
+AUGM
+AUUI
+CAAQ
+CACH
+CAGQ
+CAUH
+CCAP
+CCCP
+CCGP
+CCUP
+CGAR
+CGCR
+CGGR
+CGUR
+CUAL
+CUCL
+CUGL
+CUUL
+GAAE
+GACD
+GAGE
+GAUD
+GCAA
+GCCA
+GCGA
+GCUA
+GGAG
+GGCG
+GGGG
+GGUG
+GUAV
+GUCV
+GUGV
+GUUV
+UAA*
+UACY
+UAG*
+UAUY
+UCAS
+UCCS
+UCGS
+UCUS
+UGA*
+UGCC
+UGGW
+UGUC
+UUAL
+UUCF
+UUGL
+UUUF'''.split('\n')
+    #keys are names
+    amino_dict=dict()
+    for a in amino:
+        amino_dict[a[3]]=[]
+    for a in amino:
+        amino_dict[a[3]].append(a[0:3])
+
+    index_rna=[]
+    index_rna_rev_comp=[]
+    for seq in amino_dict[peptide[0]]:
+        for i in range(0, len(rna_pattern)):
+            if rna_pattern[i:i + 3] == seq:
+                index_rna.append(i)
+        for i in range(0, len(rna_pattern_rev_com)):
+            if rna_pattern_rev_com[i:i + 3] == seq:
+                index_rna_rev_comp.append(i)
+
+    remove_rna=[]
+    remove_rna_rev_comp=[]
+    for k in range(1,len(peptide)):
+        for i in index_rna:
+            flag=True
+            for seq in amino_dict[peptide[k]]:
+                if rna_pattern[i + 3 * k:i + 3 * k + 3] == seq:
+                    flag=False
+            if (flag):
+                remove_rna.append(i)
+        index_rna = [elem for elem in index_rna if elem not in remove_rna]
+        remove_rna = []
+
+        for i in index_rna_rev_comp:
+            flag=True
+            for seq in amino_dict[peptide[k]]:
+                if rna_pattern_rev_com[i + 3 * k:i + 3 * k + 3] == seq:
+                    flag=False
+            if (flag):
+                remove_rna_rev_comp.append(i)
+        index_rna_rev_comp = [elem for elem in index_rna_rev_comp if elem not in remove_rna_rev_comp]
+        remove_rna_rev_comp = []
+
+    return '\n'.join(sorted([detranscription(rna_pattern[i:i+len(peptide)*3]) for i in index_rna]+[reverse(complement(detranscription(rna_pattern_rev_com[i:i+len(peptide)*3]))) for i in index_rna_rev_comp]))
+
+def transcription(dna_pattern):
+    return dna_pattern.replace('T', 'U')
+
+def detranscription(rna_pattern):
+    return  rna_pattern.replace('U','T')
+
+def complement(text):
+    """complement of text"""
+    compl=""
+    nt = len(text)
+    for i in range (0,nt):
+        if text[i]=="G":
+            compl=compl+"C"
+        if text[i]=="C":
+            compl=compl+"G"
+        if text[i]=="A":
+            compl=compl+"T"
+        if text[i]=="T":
+            compl=compl+"A"
+    return compl
+
+def reverse(text):
+    """reverse of text"""
+    return text[::-1]
+
+if __name__ == '__main__':
+    x='''ATGGCCATGGCCCCCAGAACTGAGATCAATAGTACCCGTATTAACGGGTGA
+MA'''
+    inlines=x.split('\n')
+    res=encoding(transcription(inlines[0]),transcription(reverse(complement(inlines[0]))),inlines[1])
+    print(res)
+    print(res=='\n'.join(sorted('''ATGGCC
+GGCCAT
+ATGGCC'''.split())))
