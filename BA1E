@@ -8,7 +8,7 @@ Rosalind ID: BA1E
 URL: http://rosalind.info/problems/ba1e/
 """
 def kmer(text, i, k):
-    """substring of text from i-th position for the next k letters"""
+"""substring of text from i-th position for the next k letters"""
     return text[i:(i+k)]
 
 def kmersfrequency(text, k):
