@@ -1,0 +1,29 @@
+"""
+A solution to a ROSALIND bioinformatics problem.
+Problem Title: Find the Minimum Number of Coins Needed to Make Change
+Rosalind ID: BA5A
+URL: http://rosalind.info/problems/ba5a/
+"""
+def DPChange(money,coins):
+    minNumCoins=[]
+    minNumCoins.append(0)
+    for m in range (0,money+1):
+        minNumCoins.append(money+10) #Infinity
+        for i in range (0,len(coins)):
+            if m>=coins[i]:
+                if minNumCoins[m-coins[i]]+1<minNumCoins[m]:
+                    minNumCoins[m]=minNumCoins[m-coins[i]]+1
+    return minNumCoins[money]
+
+
+if __name__ == '__main__':
+    x='''40
+1,5,10,20,25,50'''
+    inlines=x.split("\n")
+    money=int(inlines[0])
+    Coins=inlines[1].split(",")
+    coins=[]
+    for c in Coins:
+        coins.append(int(c))
+    res=DPChange(money,coins)
+    print (res)
