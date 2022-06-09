@@ -7,4 +7,53 @@ Problem Title: Find Patterns Forming Clumps in a String
 Rosalind ID: BA1E
 URL: http://rosalind.info/problems/ba1e/
 """
+def kmer(text, i, k):
+    """substring of text from i-th position for the next k letters"""
+    return text[i:(i+k)]
 
+def kmersfrequency(text, k):
+    D = dict()
+    for i in range(0, len(text) - k + 1):
+        tmp = kmer(text, i, k)
+        try:
+            D[tmp] = D[tmp] + 1
+        except KeyError:
+            D[tmp] = 1
+    return(D)
+
+def kmerfrequencyatleast(dictionaryoffrequency,t):
+    """search for kmers with frequency at least t"""
+    clumpsinwindow=list()
+    for x in dictionaryoffrequency:
+        if (dictionaryoffrequency[x]>=t):
+            clumpsinwindow.append(x)
+    return (clumpsinwindow)
+
+def Lwindows(text,L):
+    """list of all L-windows in text"""
+    windows=list()
+    for i in range (0,len(text)-L+1):
+        windows.append(kmer(text,i,L))
+    return windows
+
+def clump(text,k,L,t):
+    """set of (k,L,t)-clumps in text"""
+    c=set()
+    for w in Lwindows(text,L):
+        for x in kmerfrequencyatleast(kmersfrequency(w,k),t):
+            c.add(x)
+    return c
+
+
+if __name__ == '__main__':
+    x='''CGGACTCGACAGATGTGAAGAAATGTGAAGACTGAGTGAAGAGAAGAGGAAACACGACACGACATTGCGACATAATGTACGAATGTAATGTGCCTATGGC
+5 75 4'''
+    inlines = x.split()
+    text = inlines[0]
+    k = int(inlines[1])
+    L=int(inlines[2])
+    t=int(inlines[3])
+
+    res = clump(text,k,L,t)
+
+    print(" ".join((res)))
