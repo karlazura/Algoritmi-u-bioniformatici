@@ -1,0 +1,103 @@
+"""
+A solution to a ROSALIND bioinformatics problem.
+Problem Title: Implement GreedyMotifSearch
+Rosalind ID: BA2D
+URL: http://rosalind.info/problems/ba2d/
+"""
+def kmer(text, i, k):
+    """substring of text from i-th position for the next k letters"""
+    return text[i:(i+k)]
+
+def Lwindows(text,L):
+    """list of all L-windows in text"""
+    windows=list()
+    for i in range (0,len(text)-L+1):
+        windows.append(kmer(text,i,L))
+    return windows
+
+def probability(window,profile):
+    # probability of kmer in string according to profile matrix
+    prob=1
+    for i in range (0,len(window)):
+        if window[i]=='A':
+            prob=prob*float(profile[0][i])
+        else:
+            if window[i]=='C':
+                prob = prob * float(profile[1][i])
+            else:
+                if window[i] == 'G':
+                    prob = prob * float(profile[2][i])
+                else:
+                    if window[i] == 'T':
+                        prob = prob * float(profile[3][i])
+
+    return prob
+
+def mostProbkmerinText(text,k,profile):
+    d=dict()
+    for window in Lwindows(text,k):
+        d[window]=probability(window,profile)
+    return  [x[0] for x in d.items() if x[1]==max(d.values())][0]
+
+def count(motifs,nucl,i):
+    # compute count for each nucleotide of i-th column
+    col=[motif[i] for motif in motifs]
+    num=0
+    if nucl==0:
+        num=len([n for n in col if n=='A'])
+    if nucl==1:
+        num=len([n for n in col if n=='C'])
+    if nucl==2:
+        num=len([n for n in col if n=='G'])
+    if nucl==3:
+        num=len([n for n in col if n=='T'])
+    return num
+
+def capitalLetter(motifs,i):
+    # find a capital letter of i-th column
+    counts=[count(motifs,nucl,i) for nucl in range (0,4)]
+    return [nucl for nucl in range (0,4) if counts[nucl]==max(counts)][0]
+
+def score(motifs):
+    sc=0
+    for i in range(0,len(motifs[0])):
+        sc=sc+(len(motifs)-count(motifs,capitalLetter(motifs,i),i))
+    return  sc
+
+def profileMatrix(motifs,k):
+    matrix=list()
+    for i in range(0,k):
+        for nucl in range(0,4):
+            matrix.append(list())
+            matrix[nucl].append(count(motifs,nucl,i) / len(motifs))
+    return  matrix
+
+def greedyMotifSearch(dna, k, t):
+    BestMotifs = [kmer(s,0,k) for s in dna]
+    for motif in Lwindows(dna[0],k):
+        motifs=list()
+        motifs.append(motif)
+        for i in range(1,t):
+            profile=profileMatrix(motifs,k)
+            motifs.append(mostProbkmerinText(dna[i],k,profile))
+        if score(motifs)<score(BestMotifs):
+            BestMotifs=motifs
+    return BestMotifs
+
+if __name__ == '__main__':
+
+    x = '''3 5
+GGCGTTCAGGCA
+AAGAATCAGTCA
+CAAGGAGTTCGC
+CACGTCAATCAC
+CAATAATATTCG'''
+    inlines=x.split()
+    k=int(inlines[0])
+    t=int(inlines[1])
+    dna=list()
+    for i in range(2,len(inlines)):
+        dna.append(inlines[i])
+    res=greedyMotifSearch(dna,k,t)
+    for r in res:
+        print(r)
