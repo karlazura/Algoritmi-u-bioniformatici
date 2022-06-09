@@ -1,0 +1,25 @@
+"""
+A solution to a ROSALIND bioinformatics problem.
+Problem Title: Generate the Convolution of a Spectrum
+Rosalind ID: BA4H
+URL: http://rosalind.info/problems/ba4h/
+"""
+def Convolution(arr):
+    l=[]
+    for a in arr:
+        for b in arr:
+            if a-b>0:
+                l.append(a-b)
+    for i in range (len(l)):
+        l[i]=str(l[i])
+    l.sort()
+    return " ".join(l)
+
+if __name__ == '__main__':
+    x = '''0 137 186 323'''
+    x = x.split(" ")
+    for i in range(len(x)):
+        x[i] = int(x[i])
+    res = Convolution(x)
+    print(res)
+    print(res== '''137 137 186 186 323 49''')
