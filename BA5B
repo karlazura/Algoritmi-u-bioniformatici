@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """
 A solution to a ROSALIND bioinformatics problem.
 Problem Title: Find the Length of a Longest Path in a Manhattan-like Grid
